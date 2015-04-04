@@ -1,0 +1,77 @@
+<html>
+    <head>
+        <title>pixi.js example 1</title>
+        <style>
+body {
+    margin: 0;
+    padding: 0;
+    color: white;
+    background-color: #000000;
+}
+        </style>
+        <script src="keyboard.js"></script>
+        <script src="pixi.dev.js"></script>
+        <script src="player.js"></script>
+        <script src="util.js"></script>
+    </head>
+    <body>
+        <script>
+         
+         // Code will go here
+         var wWidth = 1200;
+         var wHeight = 980;
+         // create an new instance of a pixi stage
+         var stage = new PIXI.Stage(0x66FF99);
+         
+         // create a renderer instance.
+         var renderer = PIXI.autoDetectRenderer(wWidth , wHeight);
+         //var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight - 30);
+         
+         // add the renderer view element to the DOM
+         document.body.appendChild(renderer.view);
+         
+         requestAnimFrame( animate );
+
+         var player = Object.create(Player);
+         player.windowWidth = wWidth;
+         player.windowHeight = wHeight;
+
+         stage.addChild(player.createSprite("marker.png"));
+         
+         function animate() {
+             
+             requestAnimFrame( animate );
+             
+             if ( Key.isDown(Key.UP) ){
+                 player.marker.rotation = Util.degreeToRad(0);
+                 player.dx = 0;
+                 player.dy = -1.8;
+             }
+             if ( Key.isDown(Key.DOWN) ){
+                 player.marker.rotation = Util.degreeToRad(180);
+                 player.dx = 0;
+                 player.dy = 1.8;
+             }
+             if ( Key.isDown(Key.LEFT) ){
+                 player.marker.rotation = Util.degreeToRad(270);
+                 player.dx = -1.8;
+                 player.dy = 0;                 
+             }
+             if ( Key.isDown(Key.RIGHT) ){
+                 player.marker.rotation = Util.degreeToRad(90);
+                 player.dx = 1.8;
+                 player.dy = 0;
+             }
+             player.updatePos();
+             // render the stage   
+             renderer.render(stage);
+             
+             var coords = "Key Up: " + Key.isDown(Key.UP) + ", Key Down: " + Key.isDown(Key.DOWN);
+             coords += "Key Left: " + Key.isDown(Key.LEFT)+ ", Key Right: " + Key.isDown(Key.RIGHT);
+             
+             document.getElementById("demo").innerHTML = coords;
+            }
+        </script>
+        <p id="demo"></p>
+    </body>
+</html>
