@@ -6,7 +6,7 @@ var Player = {
     marker: 0,
     worm: [],
 
-    createSprite: function (textureName) {
+    createSprite: function () {
         // create a texture from an image path
         var texture1 = PIXI.Texture.fromImage("marker.png");
         // create a new Sprite using the texture
@@ -42,6 +42,8 @@ var Player = {
     updatePos: function ( ) {
         var spriteWidth = this.marker.width / 2 + 5;
         var spriteHeight = this.marker.height / 2 + 5;
+
+        this.updateTail();
         if ((this.marker.position.x + spriteWidth + this.dx) < this.windowWidth && 
             (this.marker.position.x - spriteWidth + this.dx) > 0){
             this.marker.position.x += this.dx;
@@ -50,5 +52,16 @@ var Player = {
             (this.marker.position.y - spriteHeight  + this.dy) > 0){
             this.marker.position.y += this.dy;        
         }
+    },
+
+    updateTail: function ( ) {
+        var len = worm.length;
+        for ( var n = 1 ; n < worm.length ; ++n ) {
+            this.worm[len - n].position.x = this.worm[len - (n + 1)].position.x;
+            this.worm[len - n].position.y = this.worm[len - (n + 1)].position.y;
+        }
+//        this.worm[0].position.x = this.worm[1].position.x;
+//        this.worm[0].position.y = this.worm[1].position.y;
+
     },
 };
